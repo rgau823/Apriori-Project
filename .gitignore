@@ -1,0 +1,8 @@
+.vscode
+*.swp
+*.gcno
+*.gcda
+test_apriori
+apriori
+html
+latex
