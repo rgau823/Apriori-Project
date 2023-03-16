@@ -12,10 +12,11 @@ class GenDatabase {
 
   /**
    * @brief Construct the database generator.
-   * Generates four databases, D1K, D10K, D50K, and D100K, filling them with
-   * their respective number of transactions.
+   * If generateDB is true, generates four databases, D1K, D10K, D50K, and D100K,
+   * filling them with their respective number of transactions.
+   * @param generateDB Should DBs be generated?
    */
-  GenDatabase();
+  GenDatabase(bool generateDB = true);
 
   /**
    * @brief Generates a transaction of num random items.
@@ -61,7 +62,6 @@ class GenDatabase {
 
  private:
   std::vector<std::string> items;
-
   /**
    * @brief Generate vector of items from 0 to count with the following format:
    * i0, i1, i2 ... i98, i99 .. in

@@ -14,6 +14,18 @@ namespace TransactionHelper {
    */
   void lexiSort(std::vector<std::string>& transaction);
 
+  /**
+   * @brief Predicate function for transaction for use in std::sort and 
+   * std::is_sorted.
+   * Assumes all items follow the format of i#, where the first character is always
+   * 'i', following by any number of digits.
+   * 
+   * @param itemA first item to check
+   * @param itemB second item to check
+   * @return true if itemA < itemB
+   * @return false otherwise
+   */
+  bool lexiPred(const std::string& itemA, const std::string& itemB);
 } // namespace TransactionHelper
 
 #endif // TRANSACTION_HELPER_H

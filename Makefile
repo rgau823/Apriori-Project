@@ -6,7 +6,7 @@ EXTENSION = cc
 CXX=g++
 CXXVERSION= -std=c++11
 CXXFLAGS= $(CXXVERSION) -g -fprofile-arcs -ftest-coverage
-LINKFLAGS= -lgtest -lgtest_main
+LINKFLAGS= -lgtest -lgtest_main -pthread
 
 # Directories
 SRC_DIR = src
@@ -59,7 +59,7 @@ allTests: $(GTEST) memcheck coverage docs
 
 .PHONY: memcheck
 memcheck: $(GTEST)
-	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 $(GTEST)
+	valgrind --tool=memcheck --track-origins=yes --leak-check=yes --error-exitcode=1 $(GTEST)
 
 .PHONY: fullmemcheck
 fullmemcheck: $(GTEST)
