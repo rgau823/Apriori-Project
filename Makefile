@@ -1,6 +1,5 @@
 PROJECT = apriori
 GTEST = ./test_$(PROJECT)
-EXTENSION = cc
 
 # Compilation command and flags
 CXX=g++
@@ -10,7 +9,7 @@ LINKFLAGS= -lgtest -lgtest_main -pthread
 
 # Directories
 SRC_DIR = src
-PROJECT_SRC_DIR = src/${PROJECT}
+PROJECT_SRC_DIR = src/project
 GTEST_DIR = test
 SRC_INCLUDE = include
 INCLUDE = -I ${SRC_INCLUDE}
@@ -28,10 +27,10 @@ STYLE_CHECK = cpplint.py
 DOXY_DIR = docs/code
 
 # Default goal, used by Atom for local compilation
-.DEFAULT_GOAL := ${PROJECT}
+.DEFAULT_GOAL := compileProject
 
 # default rule for compiling .cc to .o
-%.o: %.$(EXTENSION)
+%.o: %.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # clean up all files that should NOT be submitted
@@ -43,15 +42,19 @@ clean:
 	$(GTEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR)  \
 	$(PROJECT)_* $(GTEST)
 
+.PHONY: clean-exec
+clean-exec:
+	rm -rf ${PROJECT} ${PROJECT}.exe
+
 # compilation using the files in include, src, and test, but not src/project
 $(GTEST): $(GTEST_DIR) $(SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(GTEST) $(INCLUDE) \
 	$(GTEST_DIR)/*.$(EXTENSION) $(SRC_DIR)/*.$(EXTENSION) $(LINKFLAGS)
 
 # compilation using the files in include, src, and src/project, but not test
-${PROJECT}: $(SRC_DIR) $(PROJECT_SRC_DIR)
-	$(CXX) $(CXXVERSION) -o $(PROJECT) $(INCLUDE) \
-	$(SRC_DIR)/*.$(EXTENSION) $(PROJECT_SRC_DIR)/main.$(EXTENSION)
+compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR}
+	${CXX} ${CXXVERSION} -o ${PROJECT} ${INCLUDE} \
+	${SRC_DIR}/*.cc ${PROJECT_SRC_DIR}/*.cc
 
 # To perform all tests
 .PHONY: allTests

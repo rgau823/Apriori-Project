@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <algorithm>
 
 #include "GenDatabase.h"
 
@@ -17,10 +18,10 @@ GenDatabase::GenDatabase(bool generateDB) {
 }
 
 std::vector<std::string> GenDatabase::genTransaction(int num) {
-  std::uniform_int_distribution<int> dist(0, items.size() - 1);
+  std::shuffle(items.begin(), items.end(), gen);
   std::vector<std::string> transaction;
   for (int i = 0; i < num; i++) {
-    transaction.push_back(items[dist(gen)]);
+    transaction.push_back(items[i]);
   }
   return transaction;
 }
