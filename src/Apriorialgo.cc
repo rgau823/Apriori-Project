@@ -12,10 +12,63 @@ std::vector<std::string> Apriorialgo::apriori(std::vector<std::vector<std::strin
 	while (freq) {
 		std::cout << "Round: " << round << std::endl;
 		checkFreq(db);
-		freq = false;
+		declareFreq();
+		genCandidate();
+		round++;
+		std::cout << std::endl;
 	}
 	std::vector<std::string> stub;
 	return stub;
+}
+
+
+void Apriorialgo::declareFreq() {
+	freq = false;
+	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
+		if(it->second >= supp_count) {
+			freq = true;
+		}
+	}
+
+	if (freq) {
+		for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
+			if(it->second >= supp_count) {
+				std::cout << "Set: ";
+				for (unsigned int i = 0; i < it->first.size(); i++) {
+					std::cout << it->first[i] << " ";
+				}
+				std::cout << "Count: " << it->second << std::endl;
+			}
+		}
+	} else {
+		std::cout << "No more frequent itemsets found." << std::endl;
+	}
+}
+
+void Apriorialgo::genCandidate() {
+	std::map<std::vector<std::string>, int, Comp> kplusoneset;
+	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
+		if (it->second < supp_count) continue;
+		int antiMono = it->first.size() - 1;
+		for (auto it1 = freqSet.rbegin(); it1 != freqSet.rend(); it1++) {
+			int count = 0;
+			if(it1->second < supp_count) continue;
+			if (it->first == it1->first) continue;
+			for (unsigned int i = 0; i < it->first.size(); i++) {
+				if (it->first[i] == it1->first[i]) count++;
+			}
+			if (count == antiMono) {
+				std::vector<std::string> kplusone;
+				for (unsigned int i = 0; i < it->first.size(); i++) {
+					kplusone.push_back(it->first[i]);
+				}
+				kplusone.push_back(it1->first.back());
+				kplusoneset.insert(std::make_pair(kplusone, 0));
+			}
+		}
+	}
+	freqSet = kplusoneset;
+
 }
 
 void Apriorialgo::checkFreq(std::vector<std::vector<std::string>>&db) {
@@ -28,15 +81,6 @@ void Apriorialgo::checkFreq(std::vector<std::vector<std::string>>&db) {
 			}
 		}
 	}
-	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
-		std::cout << "Set: ";
-		for (unsigned int j = 0; j < it->first.size(); j++) {
-			std::cout << it->first[j] << " ";
-		}
-		std::cout << "Count: " << it->second << std::endl;
-
-	}
-
 }
 
 

@@ -42,9 +42,20 @@ class Apriorialgo {
 	void genOneItem();
 
 	/**
-	 * 
+	 * @brief checks if itemsets are frequent;
 	 * */
 	void checkFreq(std::vector<std::vector<std::string>>& db);
+
+
+	/**
+	 * @brief prints out the frequent item sets;
+	 * */
+	void declareFreq();
+
+	/**
+	 * @brief generates the candidate sets from frequent itemsets
+	 * */
+	void genCandidate();
 
 
  private:
