@@ -14,6 +14,6 @@ int main() {
 	std::vector<std::vector<std::string>> db;
 	db = gen->genDB(100);
 	Apriorialgo* apri  = new Apriorialgo();
-	apri->apriori(db);
+	apri->apriori(db, 0.02);
 	return 0;
 }

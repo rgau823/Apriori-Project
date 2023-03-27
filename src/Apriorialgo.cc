@@ -63,7 +63,8 @@ void Apriorialgo::genCandidate() {
 					kplusone.push_back(it->first[i]);
 				}
 				kplusone.push_back(it1->first.back());
-				kplusoneset.insert(std::make_pair(kplusone, 0));
+				auto it = freqSet.find(kplusone);
+				if (it == freqSet.end()) kplusoneset.insert(std::make_pair(kplusone, 0));
 			}
 		}
 	}
@@ -74,7 +75,6 @@ void Apriorialgo::genCandidate() {
 void Apriorialgo::checkFreq(std::vector<std::vector<std::string>>&db) {
 	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
 		std::vector<std::string> sorted = it->first;
-		TransactionHelper::lexiSort(sorted);
 		for(unsigned int i = 0; i < db.size(); i++) {
 			if (std::includes(db[i].begin(), db[i].end(), sorted.begin(), sorted.end())) {
 				it->second++;

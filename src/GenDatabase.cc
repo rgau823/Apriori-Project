@@ -4,6 +4,9 @@
 #include <algorithm>
 
 #include "GenDatabase.h"
+#include "TransactionHelper.h"
+
+using namespace TransactionHelper;
 
 std::random_device ran;
 std::mt19937 gen(ran());
@@ -23,6 +26,7 @@ std::vector<std::string> GenDatabase::genTransaction(int num) {
   for (int i = 0; i < num; i++) {
     transaction.push_back(items[i]);
   }
+  TransactionHelper::lexiSort(transaction);
   return transaction;
 }
 
