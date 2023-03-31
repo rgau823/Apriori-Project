@@ -6,7 +6,7 @@
 using namespace TransactionHelper;
 
 
-itemset Idea1algo::idea1(database &db, float ms) {
+void Idea1algo::idea1(database &db, float ms) {
 	supp_count = (int)(db.size() * ms);
 	
 	genOneItem(db.size());
@@ -21,13 +21,12 @@ itemset Idea1algo::idea1(database &db, float ms) {
 		round++;
 		std::cout << std::endl;
 	}
-
+	
+	std::cout << "The last TransactionID: " << transactionID << std::endl;
 	declareFreq();
-
-	itemset stub;
-	return stub;
 }
 
+// Idea1
 void Idea1algo::checkFreq(database &db) {
 	for(unsigned int i = 0; i < db.size(); i++) {
 		for (auto it = tempSet.begin(); it!=tempSet.end();) {
@@ -55,8 +54,12 @@ void Idea1algo::checkFreq(database &db) {
 		// }
 		
 		k1Set.clear();
+		
+		if(tempSet.empty()){
+			transactionID = i;
+			return;
+		}
 	}
-
 			// std::cout << "___________________TEMPSET__________________" << std::endl;
 			// for(auto a : tempSet){
 			// for(auto b : a.first)
@@ -65,7 +68,7 @@ void Idea1algo::checkFreq(database &db) {
 			// }
 }
 
-// Maybe I don't need this function...
+// print Frequent Itemsets
 void Idea1algo::declareFreq() {
 	freq = true;
 	
@@ -79,10 +82,10 @@ void Idea1algo::declareFreq() {
 		std::cout << "Size: " << it->first.size() << std::endl;
 	}
 
-	std::cout << "\n\n===== Frequent Itemsets ===== " << freqSet.size() << "\n\n";
+	std::cout << "\n\n===== Total Number of Frequent Itemsets ===== " << freqSet.size() << "\n\n";
 }
 
-// Maybe I don't need this function...
+// print Candidate Itemsets
 void Idea1algo::declareTemp() {
 	std::cout << "\n\n===== Temp Itemsets =====\n\n";
 
@@ -97,10 +100,10 @@ void Idea1algo::declareTemp() {
 	} else {
 		std::cout << "No more frequent itemsets found." << std::endl;
 	}
-	std::cout << "\n\n===== Temp Itemsets =====" << tempSet.size() << "\n\n";
+	std::cout << "\n\n===== Total Number of Candidate Itemsets =====" << tempSet.size() << "\n\n";
 }
 
-
+// Generating Candidate Itemsets
 void Idea1algo::genCandidate(itemset fi, int startpoint) {
 	for (auto it = freqSet.begin(); it != freqSet.end(); it++) {
 		
@@ -125,19 +128,14 @@ void Idea1algo::genCandidate(itemset fi, int startpoint) {
 					continue;
 
 				kplusone.push_back(fi.back());
-
 				TransactionHelper::lexiSort(kplusone);
-
-				// auto it = find(k1Set.begin(), k1Set.end(), kplusone);
-				// 	if (it == k1Set.end()) 
-				
 				k1Set.push_back({kplusone, {0, startpoint}});
 			}
 		}
 	}	
 }
 
-
+// For the initial setup...
 void Idea1algo::genOneItem(int size) {
 	for (int i = 0; i < 100; i++) {
 		itemset item;
