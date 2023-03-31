@@ -6,17 +6,10 @@
 
 class GenDatabase {
  public:
-  
-  // Transaction databases
-  std::vector<std::vector<std::string>> D1K, D10K, D50K, D100K;
-
   /**
    * @brief Construct the database generator.
-   * If generateDB is true, generates four databases, D1K, D10K, D50K, and D100K,
-   * filling them with their respective number of transactions.
-   * @param generateDB Should DBs be generated?
    */
-  GenDatabase(bool generateDB = true);
+  GenDatabase();
 
   /**
    * @brief Generates a transaction of num random items.
@@ -49,7 +42,7 @@ class GenDatabase {
    * @param db database to write to file.
    * @param delim delimiter to use when writing.
    */
-  void writeDBToFile(std::vector<std::vector<std::string>> db, char delim = ' ');
+  void writeDBToFile(std::string file, std::vector<std::vector<std::string>> db, char delim = ' ');
 
   /**
    * @brief Reads the given file, creating a database of transactions from it.

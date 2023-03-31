@@ -10,7 +10,7 @@ using TransactionHelper::lexiSort;
 using TransactionHelper::lexiPred;
 
 TEST(TestTransactionHelper, lexiSortTest) {
-  GenDatabase g(false);
+  GenDatabase g;
   std::vector<std::string> t1;
   t1 = g.genTransaction(5, 15);
   lexiSort(t1);

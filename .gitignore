@@ -2,7 +2,14 @@
 *.swp
 *.gcno
 *.gcda
+*.freq
 test_apriori
 apriori
+GenDatabase
+idea1
+D1K
+D10K
+D50K
+D100K
 html
 latex

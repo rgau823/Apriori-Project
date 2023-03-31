@@ -2,6 +2,9 @@
 #include <string>
 #include <random>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 #include "GenDatabase.h"
 #include "TransactionHelper.h"
@@ -11,13 +14,8 @@ using namespace TransactionHelper;
 std::random_device ran;
 std::mt19937 gen(ran());
 
-GenDatabase::GenDatabase(bool generateDB) {
+GenDatabase::GenDatabase() {
   genItems();
-  if (!generateDB) { return; }
-  D1K = genDB(1000);
-  D10K = genDB(10000);
-  D50K = genDB(50000);
-  D100K = genDB(100000);
 }
 
 std::vector<std::string> GenDatabase::genTransaction(int num) {
@@ -51,10 +49,34 @@ void GenDatabase::genItems(int count) {
   }
 }
 
-void GenDatabase::writeDBToFile(std::vector<std::vector<std::string>> db, char delim) {
-  // TODO (Tyler): Implement
+void GenDatabase::writeDBToFile(std::string file, std::vector<std::vector<std::string>> db, char delim) {
+  std::ofstream dbFile;
+  dbFile.open(file);
+  for (std::vector<std::string> transaction : db) {
+    for (std::string item : transaction) {
+      dbFile << item << delim;
+    }
+    dbFile << "\n";
+  }
+  dbFile.close();
 }
 
 std::vector<std::vector<std::string>> GenDatabase::readDBFromFile(std::string file, char delim) {
-  // TODO (Tyler): Implement
+  std::ifstream dbFile;
+  std::vector<std::vector<std::string>> db;
+  std::string readLine;
+  dbFile.open(file);
+
+  while (std::getline(dbFile, readLine)) {
+    std::stringstream ss(readLine);
+    std::vector<std::string> transaction;
+    std::string item;
+
+    while (std::getline(ss, item, delim)) {
+      transaction.push_back(item);
+    }
+    db.push_back(transaction);
+  }
+  dbFile.close();
+  return db;
 }

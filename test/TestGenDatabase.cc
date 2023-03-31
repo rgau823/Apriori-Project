@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 
 TEST(TestGenDatabase, genTransactionTest) {
-  GenDatabase g(false);
+  GenDatabase g;
   std::vector<std::string> t1 = {};
 
   t1 = g.genTransaction(6);
@@ -17,7 +17,7 @@ TEST(TestGenDatabase, genTransactionTest) {
 }
 
 TEST(TestGenDatabase, genDBTest) {
-  GenDatabase g(false);
+  GenDatabase g;
   std::vector<std::vector<std::string>> db = {};
   std::vector<std::string> t1 = {};
 

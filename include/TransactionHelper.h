@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 namespace TransactionHelper {
+
+  extern std::map<std::vector<std::string>, int> freqSets;
 
   /**
    * @brief Sorts the given transaction using the following lexicographic order:
@@ -26,6 +29,11 @@ namespace TransactionHelper {
    * @return false otherwise
    */
   bool lexiPred(const std::string& itemA, const std::string& itemB);
+  bool itemsetSizePred(const std::pair<std::vector<std::string>, int>& setA, const std::pair<std::vector<std::string>, int>& setB);
+  void clearFreqSets();
+  void writeFreqSets(std::string fileName);
+
+
 } // namespace TransactionHelper
 
 #endif // TRANSACTION_HELPER_H

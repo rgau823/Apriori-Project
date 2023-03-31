@@ -27,7 +27,7 @@ STYLE_CHECK = cpplint.py
 DOXY_DIR = docs/code
 
 # Default goal, used by Atom for local compilation
-.DEFAULT_GOAL := compileProject
+.DEFAULT_GOAL := all
 
 # default rule for compiling .cc to .o
 %.o: %.cc
@@ -37,10 +37,12 @@ DOXY_DIR = docs/code
 .PHONY: clean
 clean:
 	rm -rf *~ $(SRC)/*.o $(GTEST_DIR)/output/*.dat \
-	*.gcov *.gcda *.gcno \
+	*.gcov *.gcda *.gcno *.freq \
 	$(PROJECT) $(COVERAGE_RESULTS) \
 	$(GTEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR)  \
-	$(PROJECT)_* $(GTEST)
+	$(PROJECT)_* $(GTEST) \
+	GenDatabase idea1 \
+	D1K D10K D50K D100K
 
 .PHONY: clean-exec
 clean-exec:
@@ -52,9 +54,18 @@ $(GTEST): $(GTEST_DIR) $(SRC_DIR)
 	$(GTEST_DIR)/*.$(EXTENSION) $(SRC_DIR)/*.$(EXTENSION) $(LINKFLAGS)
 
 # compilation using the files in include, src, and src/project, but not test
-compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR}
-	${CXX} ${CXXVERSION} -o ${PROJECT} ${INCLUDE} \
-	${SRC_DIR}/*.cc ${PROJECT_SRC_DIR}/*.cc
+all: GenDatabase apriori idea1
+GenDatabase: ${SRC_DIR} ${PROJECT_SRC_DIR}
+	${CXX} ${CXXVERSION} -o GenDatabase ${INCLUDE} \
+	${SRC_DIR}/*.cc ${PROJECT_SRC_DIR}/GenDatabase.cc
+
+apriori: ${SRC_DIR} ${PROJECT_SRC_DIR}
+	${CXX} ${CXXVERSION} -o apriori ${INCLUDE} \
+	${SRC_DIR}/*.cc ${PROJECT_SRC_DIR}/apriori.cc
+
+idea1: ${SRC_DIR} ${PROJECT_SRC_DIR}
+	${CXX} ${CXXVERSION} -o idea1 ${INCLUDE} \
+	${SRC_DIR}/*.cc ${PROJECT_SRC_DIR}/idea1.cc
 
 # To perform all tests
 .PHONY: allTests
