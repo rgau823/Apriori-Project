@@ -28,8 +28,8 @@ int main(int argc, char *argv[]) {
 
 	Apriorialgo* a1  = new Apriorialgo();
 	a1->apriori(db, min_supp);
-
 	std::string suppString = std::to_string(min_supp*100);
+	suppString = suppString.substr(0, suppString.find('.')+3);
 	suppString.erase(suppString.find_last_not_of('0') + 1, std::string::npos);
 	suppString.erase(suppString.find_last_not_of('.') + 1, std::string::npos);
 	std::string freqFilename = filename + "_Apriori_" + suppString + ".freq";
