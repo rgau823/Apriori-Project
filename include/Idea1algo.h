@@ -19,7 +19,7 @@ class Idea1algo {
 	 * @param the minimum support
 	 * @return a vector with frequen item sets
 	 * */
-	itemset idea1(database&db, float ms = 0.01);
+	void idea1(database&db, float ms = 0.01);
 
 
 	/**
@@ -49,11 +49,23 @@ class Idea1algo {
 
  private:
  	int supp_count;
+	
+	// Frequent Itemsets
 	std::vector<std::pair<itemset, std::pair<int, int>>> freqSet; // pair<int, int> ==> counter, start-point
+	
+	// Candidate Itemsets
 	std::vector<std::pair<itemset, std::pair<int, int>>> tempSet; // pair<int, int> ==> counter, start-point
+	
+	// Generated K+1 Itemsets
 	std::vector<std::pair<itemset, std::pair<int, int>>> k1Set; // pair<int, int> ==> counter, start-point
- 	int  round  = 1;
- 	bool freq = true;
+ 	
+	// # of scaaning DB
+	unsigned int  round  = 1;
+	
+	// ID of the transaction last scanned
+	unsigned int  transactionID = 0;
+ 	
+	bool freq = true;
 };
 
 #endif
