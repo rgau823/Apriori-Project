@@ -35,7 +35,6 @@ TEST(ApriorialgoTest, testApriori) {
 
   Apriorialgo* a1 = new Apriorialgo();
   a1->apriori(db, 0.01);
-  std::map<std::vector<std::string>, int, Comp> freqSet = a1->getFreqSet();
   
   // find it->first == "i99" and save it->second to count
 

@@ -33,6 +33,7 @@ void Apriorialgo::declareFreq() {
 	if (freq) {
 		for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
 			if(it->second >= supp_count) {
+				TransactionHelper::freqSets[it->first] = it->second;
 				std::cout << "Set: ";
 				for (unsigned int i = 0; i < it->first.size(); i++) {
 					std::cout << it->first[i] << " ";
@@ -46,13 +47,14 @@ void Apriorialgo::declareFreq() {
 }
 
 void Apriorialgo::genCandidate() {
+	bool newCandidate = false;
 	std::map<std::vector<std::string>, int, Comp> kplusoneset;
 	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
 		if (it->second < supp_count) continue;
 		int antiMono = it->first.size() - 1;
 		for (auto it1 = freqSet.rbegin(); it1 != freqSet.rend(); it1++) {
 			int count = 0;
-			if(it1->second < supp_count) continue;
+			if (it1->second < supp_count) continue;
 			if (it->first == it1->first) continue;
 			for (unsigned int i = 0; i < it->first.size(); i++) {
 				if (it->first[i] == it1->first[i]) count++;
@@ -64,16 +66,20 @@ void Apriorialgo::genCandidate() {
 				}
 				kplusone.push_back(it1->first.back());
 				auto it = freqSet.find(kplusone);
-				if (it == freqSet.end()) kplusoneset.insert(std::make_pair(kplusone, 0));
+				if (it == freqSet.end()) {
+					kplusoneset.insert(std::make_pair(kplusone, 0));
+					newCandidate = true;
+				}
 			}
 		}
 	}
 	freqSet = kplusoneset;
-
+	freq = newCandidate;
 }
 
 void Apriorialgo::checkFreq(std::vector<std::vector<std::string>>&db) {
 	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
+		TransactionHelper::scanCount++;
 		std::vector<std::string> sorted = it->first;
 		for(unsigned int i = 0; i < db.size(); i++) {
 			if (std::includes(db[i].begin(), db[i].end(), sorted.begin(), sorted.end())) {

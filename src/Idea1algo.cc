@@ -28,6 +28,7 @@ void Idea1algo::idea1(database &db, float ms) {
 
 // Idea1
 void Idea1algo::checkFreq(database &db) {
+	TransactionHelper::scanCount++;
 	for(unsigned int i = 0; i < db.size(); i++) {
 		for (auto it = tempSet.begin(); it!=tempSet.end();) {
 			if (std::includes(db[i].begin(), db[i].end(), it->first.begin(), it->first.end())) {
@@ -75,11 +76,12 @@ void Idea1algo::declareFreq() {
 	std::cout << "\n\n===== Frequent Itemsets =====\n\n";
 
 	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
-		std::cout << "Set: ";
+		TransactionHelper::freqSets[it->first] = -1;
+		//std::cout << "Set: ";
 		for (unsigned int i = 0; i < it->first.size(); i++) {
-			std::cout << it->first[i] << " ";
+			//std::cout << it->first[i] << " ";
 		}
-		std::cout << "Size: " << it->first.size() << std::endl;
+		//std::cout << "Size: " << it->first.size() << std::endl;
 	}
 
 	std::cout << "\n\n===== Total Number of Frequent Itemsets ===== " << freqSet.size() << "\n\n";

@@ -8,6 +8,7 @@
 namespace TransactionHelper {
 
   extern std::map<std::vector<std::string>, int> freqSets;
+  extern int scanCount;
 
   /**
    * @brief Sorts the given transaction using the following lexicographic order:
