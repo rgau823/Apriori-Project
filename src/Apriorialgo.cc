@@ -33,15 +33,11 @@ void Apriorialgo::declareFreq() {
 	if (freq) {
 		for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
 			if(it->second >= supp_count) {
-				TransactionHelper::freqSets[it->first] = it->second;
-				std::cout << "Set: ";
-				for (unsigned int i = 0; i < it->first.size(); i++) {
-					std::cout << it->first[i] << " ";
-				}
-				std::cout << "Count: " << it->second << std::endl;
+				TransactionHelper::freqSets[it->first] = it->second;		
 			}
-		}
-	} else {
+		} 
+	}
+	else {
 		std::cout << "No more frequent itemsets found." << std::endl;
 	}
 }
