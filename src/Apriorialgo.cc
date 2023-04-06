@@ -78,10 +78,10 @@ void Apriorialgo::genCandidate() {
 }
 
 void Apriorialgo::checkFreq(std::vector<std::vector<std::string>>&db) {
-	for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
-		TransactionHelper::scanCount++;
+	TransactionHelper::scanCount++;
+	for(unsigned int i = 0; i < db.size(); i++) {
+		for (auto it = freqSet.rbegin(); it!=freqSet.rend(); it++) {
 		std::vector<std::string> sorted = it->first;
-		for(unsigned int i = 0; i < db.size(); i++) {
 			if (std::includes(db[i].begin(), db[i].end(), sorted.begin(), sorted.end())) {
 				it->second++;
 			}
